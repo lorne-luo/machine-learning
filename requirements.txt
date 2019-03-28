@@ -1,4 +1,8 @@
+# brew install jpeg or apt-get install libjpeg
 numpy
 pandas
 scipy
 opencv-python
+opencv-contrib-python
+Pillow
+matplotlib

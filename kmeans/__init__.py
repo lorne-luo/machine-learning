@@ -4,13 +4,16 @@ import cv2
 
 import scipy.io as sio
 from numpy import shape, arange, random, argmin, dot, asarray, reshape,array
-
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
 
 class Kmeans(object):
     def __init__(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        path = os.path.join(dir_path, 'data/ex7data2.mat')
-        data = sio.loadmat(path)
+        self.path = os.path.join(dir_path, 'data/ex7data2.mat')
+        self.pic_path=os.path.join(dir_path, 'data/bird_small.png')
+        data = sio.loadmat(self.path)
         self.X = data['X']
         print('data shape', shape(self.X))
 
@@ -49,11 +52,28 @@ class Kmeans(object):
         # picData2=sio.loadmat("data/bird_small.mat")
         # print picData2['A'],type(picData2['A']),shape(picData2['A'])
 
+        im = np.array(Image.open(self.pic_path))
+
+
     def showPic(self):
         X_recovered = self.new_centroids[self.C]
         X_recovered = reshape(X_recovered, (shape(self.picData)[0], shape(self.picData)[1], shape(self.picData)[2]))
         print(shape(X_recovered))
         print(X_recovered)
+
+    def show_pic_hist(self):
+        # im = plt.imread(self.pic_path)
+        im = np.array(Image.open(self.pic_path))
+        if im.shape[2] == 3:
+            # Input image is three channels
+            fig = plt.figure()
+            fig.add_subplot(311)
+            plt.hist(im[..., 0].flatten() * 255, 256, range=(0, 250), fc='b')
+            fig.add_subplot(312)
+            plt.hist(im[..., 1].flatten() * 255, 256, range=(0, 250), fc='g')
+            fig.add_subplot(313)
+            plt.hist(im[..., 2].flatten() * 255, 256, range=(0, 250), fc='r')
+            plt.show()
 
 
 if __name__ == "__main__":
